@@ -9,12 +9,26 @@ import jade.gui.GuiEvent;
 import jade.lang.acl.ACLMessage;
 
 public class IntermediaireAgent extends GuiAgent {
-    private Ui acoDemo;
+    private Ui ui;
+    private String nomAgent;
+
+    public IntermediaireAgent(){}
+    public IntermediaireAgent(String Nom) {
+        this.nomAgent = Nom;
+    }
+    public String getNomAgent() {
+        return nomAgent;
+    }
+
+    public void setNomAgent(String nomAgent) {
+        this.nomAgent = nomAgent;
+    }
+
     @Override
     protected void setup() {
         if(getArguments().length==1){
-            acoDemo= (Ui) getArguments()[0];
-            acoDemo.setIntermediaireAgent(this);
+            ui= (Ui) getArguments()[0];
+            ui.setIntermediaireAgent(this);
         }
         ParallelBehaviour parallelBehaviour=new ParallelBehaviour();
         parallelBehaviour.addSubBehaviour(new CyclicBehaviour() {

@@ -30,9 +30,9 @@ public class Ui extends JFrame implements Runnable {
   private JDialog      antcol  = null;
   private Timer        timer   = null;
   private int          cnt     = -1;
-  private AntAgent antAgent;
-  private IntermediaireAgent intermediaireAgent;
-  private AlgorithmAgent algorithmAgent;
+  private AntAgent antAgent=new AntAgent("Ant");
+  private IntermediaireAgent intermediaireAgent=new IntermediaireAgent("Intermediaire");
+  private AlgorithmAgent algorithmAgent=new AlgorithmAgent("Algorithm");
 
   //deploy agents
   public void startContainer(String name,String className) throws Exception {
@@ -244,12 +244,11 @@ public class Ui extends JFrame implements Runnable {
       public void actionPerformed (ActionEvent e) {
         dlg.setVisible(false);
         //ACODemo.this.runAnts(((Integer)epochs.getValue()).intValue(), 100);
-
         antAgent.sendMessage(((Integer)epochs.getValue()).intValue());
         intermediaireAgent.sendMessage("Run the Algorithm for "+((Integer)epochs.getValue()).intValue(),
                 "Algorithm",ACLMessage.REQUEST);
+        algorithmAgent.sendMessage("Algorithme est démaré",ACLMessage.AGREE);
         algorithmAgent.runAlgorithm(((Integer)epochs.getValue()).intValue(),100);
-        algorithmAgent.sendMessage("Algorithme est démaré",ACLMessage.INFORM);
       } } );
     btn = new JButton("Annuler"); bbar.add(btn);
     btn.addActionListener(new ActionListener () {
@@ -267,9 +266,9 @@ public class Ui extends JFrame implements Runnable {
   public void run ()
   {
     try {
-      startContainer("Intermediaire","agents.IntermediaireAgent");
-      startContainer("Ant","agents.AntAgent");
-      startContainer("Algorithm","agents.AlgorithmAgent");
+      startContainer(this.antAgent.getNomAgent(),"agents.AntAgent");
+      startContainer(this.intermediaireAgent.getNomAgent(),"agents.IntermediaireAgent");
+      startContainer(this.algorithmAgent.getNomAgent(),"agents.AlgorithmAgent");
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -303,13 +302,7 @@ public class Ui extends JFrame implements Runnable {
         Ui.this.runopt = createRunOpt();
         Ui.this.runopt.setVisible(true);
       } } );
-    item = menu.add(new JMenuItem("Arréter l'optimization"));
-    item.addActionListener(new ActionListener() {
-      public void actionPerformed (ActionEvent e) {
-        if (Ui.this.timer == null) return;
-        Ui.this.timer.stop();
-        Ui.this.cnt = -1;
-      } } );
+
     menu.addSeparator();
     item = menu.add(new JMenuItem("Repaint"));
     item.addActionListener(new ActionListener() {

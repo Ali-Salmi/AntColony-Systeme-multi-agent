@@ -9,13 +9,22 @@ import jade.gui.GuiEvent;
 import jade.lang.acl.ACLMessage;
 
 public class AlgorithmAgent extends GuiAgent {
-    private Ui acoDemo;
+    private Ui ui;
+    private String nomAgent;
+    public AlgorithmAgent(){}
+    public AlgorithmAgent(String Nom) {
+        this.nomAgent = Nom;
+    }
+
+    public String getNomAgent() {
+        return this.nomAgent;
+    }
 
     @Override
     protected void setup() {
         if(getArguments().length==1){
-            acoDemo= (Ui) getArguments()[0];
-            acoDemo.setAlgorithmAgent(this);
+            ui= (Ui) getArguments()[0];
+            ui.setAlgorithmAgent(this);
         }
         ParallelBehaviour parallelBehaviour=new ParallelBehaviour();
         parallelBehaviour.addSubBehaviour(new CyclicBehaviour() {
@@ -39,7 +48,7 @@ public class AlgorithmAgent extends GuiAgent {
         send(msg);
     }
     public void runAlgorithm(int epochs,int delai){
-        acoDemo.runAnts(epochs,delai );
+        ui.runAnts(epochs,delai );
     }
 
     @Override

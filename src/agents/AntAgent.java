@@ -9,13 +9,22 @@ import jade.gui.GuiEvent;
 import jade.lang.acl.ACLMessage;
 
 public class AntAgent extends GuiAgent {
-    private transient Ui acoDemo;
+    private transient Ui ui;
+
+    private String nomAgent;
+    public AntAgent(){}
+    public AntAgent(String Nom) {
+        this.nomAgent = Nom;
+    }
+    public String getNomAgent() {
+        return nomAgent;
+    }
 
     @Override
     protected void setup() {
         if(getArguments().length==1){
-            acoDemo= (Ui) getArguments()[0];
-            acoDemo.setAntAgent(this);
+            ui= (Ui) getArguments()[0];
+            ui.setAntAgent(this);
         }
         ParallelBehaviour parallelBehaviour=new ParallelBehaviour();
         parallelBehaviour.addSubBehaviour(new CyclicBehaviour() {
@@ -33,10 +42,14 @@ public class AntAgent extends GuiAgent {
     }
 
     public void sendMessage(int epoch){
+        int epochs=this.saisirEpoch(epoch);
         ACLMessage msg=new ACLMessage(ACLMessage.REQUEST);
-        msg.setContent("donner moi le plus court chemin avec "+Integer.toString(epoch)+" epoch");
+        msg.setContent("donner moi le plus court chemin avec "+epochs+" epoch");
         msg.addReceiver(new AID("Intermediaire",AID.ISLOCALNAME));
         send(msg);
+    }
+    public int saisirEpoch(int epocks){
+        return epocks;
     }
 
     @Override
