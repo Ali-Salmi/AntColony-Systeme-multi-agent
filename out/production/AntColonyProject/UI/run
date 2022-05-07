@@ -1,0 +1,4 @@
+#!/bin/bash
+
+CLASSPATH=".:.."; export CLASSPATH
+java acopt.ACODemo $1
