@@ -1,7 +1,7 @@
 package UI;
 
 import algorithm.AntColony;
-import algorithm.TSP;
+import algorithm.ACP;
 import agents.AlgorithmAgent;
 import agents.AntAgent;
 import agents.IntermediaireAgent;
@@ -25,8 +25,8 @@ public class Ui extends JFrame implements Runnable {
   private UiPanel panel   = null;
   private JTextField   stat    = null;
   private JDialog      runopt  = null;
-  private TSP tsp     = null;
-  private JDialog      randtsp = null;
+  private ACP acp     = null;
+  private JDialog      randacp = null;
   private JDialog      antcol  = null;
   private Timer        timer   = null;
   private int          cnt     = -1;
@@ -46,17 +46,17 @@ public class Ui extends JFrame implements Runnable {
   }
 
 
-  private void genTSP (int vertcnt, long seed)
+  private void genACP (int vertcnt, long seed)
   {
     if (this.cnt >= 0) return;
     Random rand = (seed > 0) ? new Random(seed) : new Random();
-    this.tsp = new TSP(vertcnt, rand);
-    this.tsp.transform(10.0, 0, 0);
-    this.panel.setTSP(Ui.this.tsp);
+    this.acp = new ACP(vertcnt, rand);
+    this.acp.transform(10.0, 0, 0);
+    this.panel.setTSP(Ui.this.acp);
     this.repaint();
   }  /* genTSP() */
 
-  private JDialog createRandTSP ()
+  private JDialog createRandACP ()
   {
     final JDialog      dlg  = new JDialog(this, "Générer les sources de nouriture aléatoirement...");
     GridBagLayout      g    = new GridBagLayout();
@@ -81,13 +81,13 @@ public class Ui extends JFrame implements Runnable {
     btn.addActionListener(new ActionListener () {
       public void actionPerformed (ActionEvent e) {
         dlg.setVisible(false);
-        Ui.this.genTSP(((Integer)vertcnt.getValue()).intValue(),
+        Ui.this.genACP(((Integer)vertcnt.getValue()).intValue(),
                 0);
       } } );
     btn = new JButton("Appliquer"); bbar.add(btn);
     btn.addActionListener(new ActionListener () {
       public void actionPerformed (ActionEvent e) {
-        Ui.this.genTSP(((Integer)vertcnt.getValue()).intValue(),
+        Ui.this.genACP(((Integer)vertcnt.getValue()).intValue(),
                 0);
       } } );
     btn = new JButton("Annuler"); bbar.add(btn);
@@ -101,7 +101,7 @@ public class Ui extends JFrame implements Runnable {
     dlg.setLocation(740, 440);
     dlg.pack();
     return dlg;
-  }  /* createRandTSP() */
+  }  /* createRandACP() */
 
   private JDialog createAnts ()
   {
@@ -284,9 +284,9 @@ public class Ui extends JFrame implements Runnable {
     item = menu.add(new JMenuItem("Générer les sources de nouriture..."));
     item.addActionListener(new ActionListener() {
       public void actionPerformed (ActionEvent e) {
-        if (Ui.this.randtsp == null)
-          Ui.this.randtsp = createRandTSP();
-        Ui.this.randtsp.setVisible(true);
+        if (Ui.this.randacp == null)
+          Ui.this.randacp = createRandACP();
+        Ui.this.randacp.setVisible(true);
       } } );
     item = menu.add(new JMenuItem("Créer une colonie de fourmis..."));
     item.addActionListener(new ActionListener() {

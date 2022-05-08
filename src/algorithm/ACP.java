@@ -2,7 +2,7 @@ package algorithm;
 
 import java.util.Random;
 
-public class TSP {
+public class ACP {
 
   private static final int BLKSIZE = 16;
   protected int        size;
@@ -15,7 +15,7 @@ public class TSP {
   private   double     bbw, bbh;
   private   boolean    valid;
 
-  public TSP (int size)
+  public ACP(int size)
   {
     this.size   = 0;
     this.xs     = new double[size];
@@ -27,7 +27,7 @@ public class TSP {
     this.valid  = false;
   }  /* TSP() */
 
-  public TSP (int size, Random rand)
+  public ACP(int size, Random rand)
   {
     this(size);
     this.randomize(rand);

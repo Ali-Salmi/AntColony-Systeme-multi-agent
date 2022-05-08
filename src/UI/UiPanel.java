@@ -1,7 +1,7 @@
 package UI;
 
 import algorithm.AntColony;
-import algorithm.TSP;
+import algorithm.ACP;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +27,7 @@ class Edge implements Comparable<Edge> {
 public class UiPanel extends JPanel {
 
   private static final long serialVersionUID = 0x00010000L;
-  private TSP tsp;
+  private ACP acp;
   private AntColony antc;
   private double    xoff, yoff;
   private double    scale;
@@ -39,7 +39,7 @@ public class UiPanel extends JPanel {
 
   public UiPanel()
   {
-    this.tsp   = null;
+    this.acp   = null;
     this.antc  = null;
     this.xoff  = this.yoff = 0;
     this.scale = 64.0;
@@ -52,18 +52,18 @@ public class UiPanel extends JPanel {
 
   public AntColony getAnts () { return this.antc; }
 
-  public void setTSP (TSP tsp)
+  public void setTSP (ACP tsp)
   {
     this.antc  = null;
     this.edges = null;
-    this.tsp   = tsp;
-    if (this.tsp == null)
+    this.acp   = tsp;
+    if (this.acp == null)
       this.setPreferredSize(new Dimension(656, 656));
     else {
       this.xoff = tsp.getX();
       this.yoff = tsp.getY();
       this.setScale(64.0);
-      int n = this.tsp.size();
+      int n = this.acp.size();
       this.edges = new Edge[n = (n *(n-1)) >> 1];
       while (--n >= 0) this.edges[n] = new Edge();
     }
@@ -79,23 +79,23 @@ public class UiPanel extends JPanel {
 
     this.scale = scale;
     d = new Dimension();
-    d.width  = (int)(this.tsp.getWidth()  *scale +16.5);
-    d.height = (int)(this.tsp.getHeight() *scale +16.5);
+    d.width  = (int)(this.acp.getWidth()  *scale +16.5);
+    d.height = (int)(this.acp.getHeight() *scale +16.5);
     this.setPreferredSize(d);
     w = 8; h = d.height -8;
-    n = this.tsp.size();
+    n = this.acp.size();
     this.xs = new int[n];
     this.ys = new int[n];
     for (i = n; --i >= 0; ) {
-      this.xs[i] = (int)(w +scale *(this.tsp.getX(i) -this.xoff) +0.5);
-      this.ys[i] = (int)(h -scale *(this.tsp.getY(i) -this.yoff) +0.5);
+      this.xs[i] = (int)(w +scale *(this.acp.getX(i) -this.xoff) +0.5);
+      this.ys[i] = (int)(h -scale *(this.acp.getY(i) -this.yoff) +0.5);
     }
   }  /* setScale() */
 
   public void initAnts (int antcnt, double phero, Random rand)
   {
-    if (this.tsp == null) return;
-    this.antc = new AntColony(this.tsp, antcnt, rand);
+    if (this.acp == null) return;
+    this.antc = new AntColony(this.acp, antcnt, rand);
     this.antc.init(phero);
     this.repaint();
   }  /* initAnts() */
@@ -137,9 +137,9 @@ public class UiPanel extends JPanel {
     if (d.height > h) h = d.height;
     g.setColor(Color.white);
     g.fillRect(0, 0, w, h);
-    if (this.tsp == null)
+    if (this.acp == null)
       return;
-    n = this.tsp.size();
+    n = this.acp.size();
     w = 8; h = d.height -8;
 
     if (this.antc != null) {

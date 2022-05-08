@@ -7,7 +7,7 @@ public class AntColony {
 /*--------------------------------------------------------------------*/
 
   /* --- instance variables --- */
-  protected TSP        tsp;     /* traveling salesman problem */
+  protected ACP tsp;     /* traveling salesman problem */
   protected double[][] dists;   /* distances between vertices */
   protected double[][] nears;   /* nearness factors: d_ij^{-\alpha} */
   protected double[][] trail;   /* pheromone trail on edges */
@@ -39,7 +39,7 @@ public class AntColony {
 
   /*------------------------------------------------------------------*/
 
-  public AntColony (TSP tsp, int antcnt, Random rand)
+  public AntColony (ACP tsp, int antcnt, Random rand)
   {                             /* --- create an ant colony */
     this.tsp     = tsp;         /* note traveling salesman problem */
     this.dists   = tsp.dists;   /* and its distance matrix */
@@ -65,12 +65,12 @@ public class AntColony {
 
   /*------------------------------------------------------------------*/
 
-  public AntColony (TSP tsp, int antcnt)
+  public AntColony (ACP tsp, int antcnt)
   { this(tsp, antcnt, new Random()); }
 
   /*------------------------------------------------------------------*/
 
-  public TSP getTSP () { return this.tsp; }
+  public ACP getTSP () { return this.tsp; }
 
   /*------------------------------------------------------------------*/
 
