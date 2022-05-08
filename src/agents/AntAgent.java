@@ -8,6 +8,8 @@ import jade.gui.GuiAgent;
 import jade.gui.GuiEvent;
 import jade.lang.acl.ACLMessage;
 
+import javax.swing.*;
+
 public class AntAgent extends GuiAgent {
     private transient Ui ui;
 
@@ -32,8 +34,10 @@ public class AntAgent extends GuiAgent {
             public void action() {
                 ACLMessage msg=receive();
                 if(msg!=null){
-                    System.out.println("sender: "+ msg.getSender().getName());
-                    System.out.println("content: "+ msg.getContent());
+                    JOptionPane.showMessageDialog(ui,
+                            "Fin de l'algorithme",
+                            "Le plus court chemin",
+                            JOptionPane.INFORMATION_MESSAGE);
                 }
                 else block();
             }

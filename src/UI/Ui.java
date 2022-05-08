@@ -72,7 +72,7 @@ public class Ui extends JFrame implements Runnable {
     lbl = new JLabel("Nombre de sources de nouriture:");
     g.setConstraints(lbl, lc);     grid.add(lbl);
     final JSpinner vertcnt = new JSpinner(
-            new SpinnerNumberModel(30, 1, 1000, 1));
+            new SpinnerNumberModel(30, 5, 1000, 1));
     g.setConstraints(vertcnt, rc); grid.add(vertcnt);
 
     bbar = new JPanel(new GridLayout(1, 2, 5, 5));
@@ -190,9 +190,9 @@ public class Ui extends JFrame implements Runnable {
     this.timer = new Timer(delay, new ActionListener () {
       public void actionPerformed (ActionEvent e) {
         if (--Ui.this.cnt < 0) {
-          algorithmAgent.sendMessage("Find de l'algorithme",ACLMessage.INFORM);
-          intermediaireAgent.sendMessage("le plus court chemin est prêt..!", "Ant",ACLMessage.INFORM);
+          algorithmAgent.sendMessage("Fin de l'algorithme",ACLMessage.INFORM);
           Ui.this.timer.stop();
+
           return; }
         Ui.this.panel.runAnts();
         Ui.this.panel.repaint();
@@ -212,7 +212,7 @@ public class Ui extends JFrame implements Runnable {
 
   private JDialog createRunOpt ()
   {
-    final JDialog      dlg  = new JDialog(this, "Démarer l'optimization...");
+    final JDialog      dlg  = new JDialog(this, "Démarrer l'optimization...");
     GridBagLayout      g    = new GridBagLayout();
     GridBagConstraints lc   = new GridBagConstraints();
     GridBagConstraints rc   = new GridBagConstraints();
@@ -245,9 +245,8 @@ public class Ui extends JFrame implements Runnable {
         dlg.setVisible(false);
         //ACODemo.this.runAnts(((Integer)epochs.getValue()).intValue(), 100);
         antAgent.sendMessage(((Integer)epochs.getValue()).intValue());
-        intermediaireAgent.sendMessage("Run the Algorithm for "+((Integer)epochs.getValue()).intValue(),
-                "Algorithm",ACLMessage.REQUEST);
-        algorithmAgent.sendMessage("Algorithme est démaré",ACLMessage.AGREE);
+        intermediaireAgent.sendMessage("Démarrer l'algorithme avec"+((Integer)epochs.getValue()).intValue()+" epochs","Algorithm",ACLMessage.REQUEST);
+        //algorithmAgent.sendMessage("Algorithme est démarré",ACLMessage.AGREE);
         algorithmAgent.runAlgorithm(((Integer)epochs.getValue()).intValue(),100);
       } } );
     btn = new JButton("Annuler"); bbar.add(btn);

@@ -23,7 +23,7 @@ public class IntermediaireAgent extends GuiAgent {
     public void setNomAgent(String nomAgent) {
         this.nomAgent = nomAgent;
     }
-
+    public ACLMessage msg1;
     @Override
     protected void setup() {
         if(getArguments().length==1){
@@ -36,8 +36,18 @@ public class IntermediaireAgent extends GuiAgent {
             public void action() {
                 ACLMessage msg=receive();
                 if(msg!=null){
-                    System.out.println("sender: "+ msg.getSender().getName());
-                    System.out.println("content: "+ msg.getContent());
+                    if(msg.getSender().equals("Ant@192.168.187.1:1099/JADE")){
+                        msg1=msg;
+                        msg1.setPerformative(ACLMessage.INFORM);
+                    }
+                }
+                else block();
+                if(msg!=null){
+                    if(msg.getContent().equals("Fin de l'algorithme")){
+                        ACLMessage aclMessage=msg1.createReply();
+                        aclMessage.setContent("le plus court chemin est prêt..!");
+                        send(aclMessage);
+                    }
                 }
                 else block();
             }

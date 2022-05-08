@@ -32,8 +32,12 @@ public class AlgorithmAgent extends GuiAgent {
             public void action() {
                 ACLMessage msg=receive();
                 if(msg!=null){
-                    System.out.println("sender: "+ msg.getSender().getName());
-                    System.out.println("content: "+ msg.getContent());
+                    if(msg.getSender().equals("Intermediaire@192.168.187.1:1099/JADE")){
+                        ACLMessage aclMessage=msg.createReply();
+                        aclMessage.setContent("Algorithme est démarré");
+                        aclMessage.setPerformative(ACLMessage.AGREE);
+                        send(aclMessage);
+                    }
                 }
                 else block();
             }
