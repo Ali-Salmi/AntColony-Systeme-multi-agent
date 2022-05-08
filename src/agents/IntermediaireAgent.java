@@ -24,6 +24,16 @@ public class IntermediaireAgent extends GuiAgent {
         this.nomAgent = nomAgent;
     }
     public ACLMessage msg1;
+    public String getAgentName(String s){
+        String name = "";
+        for(int i=0;i<s.length();i++){
+            if( Character.compare(s.charAt(i), '@') != 0){
+                name+=s.charAt(i);
+            }
+            else return name;
+        }
+        return name;
+    }
     @Override
     protected void setup() {
         if(getArguments().length==1){
@@ -36,8 +46,9 @@ public class IntermediaireAgent extends GuiAgent {
             public void action() {
                 ACLMessage msg=receive();
                 if(msg!=null){
-                    if(msg.getSender().equals("Ant@192.168.187.1:1099/JADE")){
+                    if(getAgentName(msg.getSender().getName()).equals("Ant")){
                         msg1=msg;
+                        System.out.println(getAgentName(msg.getSender().getName()));
                         msg1.setPerformative(ACLMessage.INFORM);
                     }
                 }
